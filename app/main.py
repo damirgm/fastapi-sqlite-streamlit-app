@@ -18,6 +18,8 @@ from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.responses import PlainTextResponse
 from sqlmodel import SQLModel, Field, Relationship, Session, create_engine, select
 
+from sqlalchemy.orm import Mapped
+
 
 # ----------------------------
 # Constants / "white lists"
@@ -45,7 +47,7 @@ class Applicant(SQLModel, table=True):
     birth_year: int
     region: str
 
-    applications: List["Application"] = Relationship(back_populates="applicant")
+    applications: Mapped[List["Application"]] = Relationship(back_populates="applicant")
 
 
 class Program(SQLModel, table=True):
@@ -53,7 +55,7 @@ class Program(SQLModel, table=True):
     program_name: str
     faculty: str
 
-    applications: List["Application"] = Relationship(back_populates="program")
+    applications: Mapped[List["Application"]] = Relationship(back_populates="program")
 
 
 class Application(SQLModel, table=True):
@@ -70,8 +72,8 @@ class Application(SQLModel, table=True):
     status_changed_at: datetime = Field(default_factory=datetime.utcnow)
 
     # relationships
-    applicant: Optional[Applicant] = Relationship(back_populates="applications")
-    program: Optional[Program] = Relationship(back_populates="applications")
+    applicant: Mapped[Optional["Applicant"]] = Relationship(back_populates="applications")
+    program: Mapped[Optional["Program"]] = Relationship(back_populates="applications")
 
 
 class StatusLog(SQLModel, table=True):
