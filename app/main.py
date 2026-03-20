@@ -16,6 +16,7 @@ from typing import Optional, List, Dict, Any
 
 from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.responses import PlainTextResponse
+from sqlalchemy.orm import Mapped
 from sqlmodel import SQLModel, Field, Relationship, Session, create_engine, select
 
 from sqlalchemy.orm import Mapped
